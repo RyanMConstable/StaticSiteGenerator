@@ -10,7 +10,6 @@ class LeaftNodeTest(unittest.TestCase):
 
     def test_none_tag(self):
         node = LeafNode(None, "This is my text", None)
-        print(node)
         self.assertEqual(node.to_html(), "This is my text")
 
     def test_tag_and_value(self):
