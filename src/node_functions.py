@@ -10,6 +10,10 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
     new_nodes = []
     for node in old_nodes:
+        if node.text_type != TextType.NORMAL:
+            new_nodes.append(node)
+            continue
+
         split_list = node.text.split(delimiter)
         for i in range(len(split_list)):
             if split_list[i] == "":
@@ -34,6 +38,9 @@ def split_nodes_image(old_nodes):
         return new_nodes
 
     for node in old_nodes:
+        if node.text_type != TextType.NORMAL:
+            new_nodes.append(node)
+            continue
         text = node.text
         extracted = extract_markdown_images(node.text)
         
@@ -59,6 +66,9 @@ def split_nodes_link(old_nodes):
         return new_nodes
 
     for node in old_nodes:
+        if node.text_type != TextType.NORMAL:
+            new_nodes.append(node)
+            continue
         text = node.text
         extracted = extract_markdown_links(node.text)
         
@@ -78,3 +88,19 @@ def split_nodes_link(old_nodes):
 
 
     return new_nodes
+
+def text_to_textnodes(text):
+    node = TextNode(text, TextType.NORMAL)
+    print(node)
+    nodes = split_nodes_link([node])
+    print(nodes)
+    nodes = split_nodes_image(nodes)
+    print(nodes)
+    nodes = split_nodes_delimiter(nodes, '`', TextType.CODE)
+    print(nodes)
+    nodes = split_nodes_delimiter(nodes, '**', TextType.BOLD)
+    print(nodes)
+    nodes = split_nodes_delimiter(nodes, '*', TextType.ITALIC)
+    return nodes
+
+print(text_to_textnodes("This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"))
