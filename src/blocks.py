@@ -1,3 +1,5 @@
+from node_functions import *
+
 def markdown_to_blocks(markdown):
     list_lines = markdown.splitlines()
     new_list = []
@@ -74,4 +76,18 @@ def block_to_block_type(block):
 
     return "paragraph"
 
+txt = """# This is a heading
 
+This is a paragraph of text. It has some **bold** and *italic* words inside of it.
+
+* This is the first list item in a list block
+* This is a list item
+* This is another list item"""
+
+
+
+
+list_blocks = markdown_to_blocks(txt)
+for block in list_blocks:
+    print(block_to_block_type(block))
+    print(text_to_textnodes(block))
